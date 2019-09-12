@@ -15,6 +15,7 @@ function! smartmove#home()
     execute 'normal! 0'
     let l:first_column = col('.')
 
+    " Prefer first non blank before
     if l:current_column != l:first_non_blank_column
         call cursor(l:lnum, l:first_non_blank_column)
     else
@@ -34,10 +35,11 @@ function! smartmove#end(mode)
     execute 'normal! $'
     let l:last_column = col('.')
 
-    if l:current_column != l:last_non_blank_column + l:offset
-        call cursor(l:lnum, l:last_non_blank_column + l:offset)
-    else
+    " Prefer last column before last non blank column
+    if l:current_column != l:last_column + l:offset
         call cursor(l:lnum, l:last_column + l:offset)
+    else
+        call cursor(l:lnum, l:last_non_blank_column + l:offset)
     endif
 endfun
 
